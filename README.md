@@ -145,7 +145,7 @@ The backend can be deployed to any Node.js hosting service:
 
 4. **Access applications**
    - Frontend: http://localhost:4200
-   - Backend: http://localhost:3000
+   - Backend: http://localhost:1003
 
 ## 📝 Contributing
 
