@@ -1,0 +1,49 @@
+/* Sidebar component styles */
+.sidebar-collapsed {
+  width: 4rem;
+}
+
+.sidebar-expanded {
+  width: 16rem;
+}
+
+/* Prevent horizontal overflow */
+.sidebar-container {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* Smooth transitions */
+.sidebar-transition {
+  transition: all 0.3s ease-in-out;
+}
+
+/* Hover effects */
+.nav-item:hover {
+  background-color: rgba(59, 130, 246, 0.05);
+  border-color: rgba(59, 130, 246, 0.2);
+}
+
+/* Active state */
+.nav-item.active {
+  background-color: rgba(59, 130, 246, 0.1);
+  color: rgb(59, 130, 246);
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+/* User section hover */
+.user-section:hover {
+  background-color: rgba(59, 130, 246, 0.05);
+}
+
+/* Ensure sidebar doesn't cause horizontal scroll */
+:host {
+  display: block;
+  flex-shrink: 0;
+}
+
+/* Prevent text overflow in collapsed state */
+.sidebar-collapsed .nav-label,
+.sidebar-collapsed .user-info {
+  display: none;
+}

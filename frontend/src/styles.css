@@ -1,3 +1,41 @@
+/* You can add global styles to this file, and also import other style files */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Global styles to prevent horizontal scrolling */
+html,
+body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* Ensure proper flexbox behavior */
+.flex-container {
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* Prevent text overflow issues */
+.text-container {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+/* Ensure sidebar doesn't cause layout issues */
+.sidebar-wrapper {
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+/* Main content area */
+.main-content {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
