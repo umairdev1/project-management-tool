@@ -1,2 +1,89 @@
 /* Dashboard component styles */
-/* Most styling is handled by Tailwind classes */
+.dashboard-container {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.sidebar-section {
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.main-section {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.header-section {
+  flex-shrink: 0;
+}
+
+.content-section {
+  flex: 1;
+  overflow: auto;
+  min-height: 0;
+}
+
+/* Prevent horizontal scroll */
+.content-wrapper {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Ensure proper spacing */
+.padding-container {
+  padding: 1.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .padding-container {
+    padding: 1rem;
+  }
+}
+
+/* Main layout */
+.min-h-screen {
+  min-height: 100vh;
+}
+
+/* Smooth transitions */
+* {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Header styles */
+header {
+  backdrop-filter: blur(8px);
+}
+
+/* Button hover effects */
+button:hover {
+  transform: translateY(-1px);
+}
+
+/* Smooth scrolling */
+.overflow-auto {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar for webkit browsers */
+.overflow-auto::-webkit-scrollbar {
+  width: 6px;
+}
+
+.overflow-auto::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+.overflow-auto::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.overflow-auto::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}

@@ -1,0 +1,134 @@
+<div
+  class="bg-white border-r border-gray-200 flex flex-col transition-all duration-300 ease-in-out overflow-hidden"
+  [class]="isCollapsed ? 'w-16' : 'w-64'"
+>
+  <!-- Logo Section -->
+  <div
+    class="flex items-center justify-between h-16 px-4 border-b border-gray-200 flex-shrink-0"
+  >
+    <div class="flex items-center space-x-3">
+      <div
+        class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center flex-shrink-0"
+      >
+        <span class="text-white text-lg font-bold">P</span>
+      </div>
+      <h1
+        class="text-xl font-bold text-gray-900 transition-opacity duration-300 nav-label"
+        [class.opacity-0]="isCollapsed"
+        [class.hidden]="isCollapsed"
+      >
+        Project
+      </h1>
+    </div>
+
+    <!-- Toggle Button -->
+    <button
+      (click)="onToggleCollapse()"
+      class="p-1 rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors duration-200"
+      [class.hidden]="isCollapsed"
+    >
+      <svg
+        class="w-5 h-5"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M11 19l-7-7 7-7m8 14l-7-7 7-7"
+        ></path>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+    <ng-container *ngFor="let item of navItems">
+      <a
+        [routerLink]="item.path"
+        routerLinkActive="bg-blue-50 text-blue-700 border-blue-200"
+        class="flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 border border-transparent"
+      >
+        <!-- Icon -->
+        <svg
+          class="w-5 h-5 flex-shrink-0"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            [attr.d]="item.icon"
+          ></path>
+        </svg>
+
+        <!-- Label and Badge -->
+        <div
+          class="flex-1 flex items-center justify-between transition-opacity duration-300 nav-label"
+          [class.opacity-0]="isCollapsed"
+          [class.hidden]="isCollapsed"
+        >
+          <span class="text-sm font-medium truncate">{{ item.label }}</span>
+          <span
+            *ngIf="item.badge"
+            class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 flex-shrink-0"
+          >
+            {{ item.badge }}
+          </span>
+        </div>
+      </a>
+    </ng-container>
+  </nav>
+
+  <!-- User Section -->
+  <div class="border-t border-gray-200 p-4 flex-shrink-0">
+    <div class="flex items-center space-x-3">
+      <!-- User Avatar -->
+      <div
+        class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0"
+      >
+        <span class="text-white text-sm font-medium">{{
+          getUserInitials()
+        }}</span>
+      </div>
+
+      <!-- User Info -->
+      <div
+        class="flex-1 min-w-0 transition-opacity duration-300 user-info"
+        [class.opacity-0]="isCollapsed"
+        [class.hidden]="isCollapsed"
+      >
+        <p class="text-sm font-medium text-gray-900 truncate">
+          {{ getUserName() }}
+        </p>
+        <p class="text-xs text-gray-500 truncate">{{ getUserEmail() }}</p>
+      </div>
+
+      <!-- Logout Button -->
+      <button
+        (click)="logout()"
+        class="p-1 rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors duration-200"
+        [class.hidden]="isCollapsed"
+        title="Logout"
+      >
+        <svg
+          class="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+          ></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>

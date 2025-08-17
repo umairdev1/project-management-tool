@@ -1,31 +1,32 @@
-import { Component, inject, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-  ReactiveFormsModule,
-} from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule],
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.css',
 })
 export class LoginComponent implements OnInit {
-  private fb = inject(FormBuilder);
-  private authService = inject(AuthService);
-  private router = inject(Router);
-
   loginForm!: FormGroup;
   isLoading = false;
   errorMessage = '';
 
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private authService: AuthService
+  ) {}
+
   ngOnInit(): void {
+    this.initForm();
+  }
+
+  private initForm(): void {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -38,28 +39,35 @@ export class LoginComponent implements OnInit {
       this.errorMessage = '';
 
       this.authService.login(this.loginForm.value).subscribe({
-        next: () => {
-          this.router.navigate(['/dashboard']);
+        next: (response) => {
+          this.isLoading = false;
+          if (response.success) {
+            this.authService.handleAuthSuccess(response);
+            this.router.navigate(['/dashboard']);
+          } else {
+            this.errorMessage = response.message || 'Login failed. Please try again.';
+          }
         },
         error: (error) => {
           this.isLoading = false;
-          this.errorMessage =
-            error.error?.message || 'Login failed. Please try again.';
+          this.errorMessage = 'Login failed. Please try again.';
         },
       });
     }
   }
 
-  getErrorMessage(field: string): string {
-    const control = this.loginForm.get(field);
-    if (control?.hasError('required')) {
-      return `${field.charAt(0).toUpperCase() + field.slice(1)} is required`;
-    }
-    if (control?.hasError('email')) {
-      return 'Please enter a valid email address';
-    }
-    if (control?.hasError('minlength')) {
-      return `Password must be at least ${control.errors?.['minlength'].requiredLength} characters`;
+  getErrorMessage(controlName: string): string {
+    const control = this.loginForm.get(controlName);
+    if (control?.errors) {
+      if (control.errors['required']) {
+        return `${controlName.charAt(0).toUpperCase() + controlName.slice(1)} is required`;
+      }
+      if (control.errors['email']) {
+        return 'Please enter a valid email address';
+      }
+      if (control.errors['minlength']) {
+        return `${controlName.charAt(0).toUpperCase() + controlName.slice(1)} must be at least ${control.errors['minlength'].requiredLength} characters`;
+      }
     }
     return '';
   }
