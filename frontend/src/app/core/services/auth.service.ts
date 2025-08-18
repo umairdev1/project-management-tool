@@ -17,7 +17,8 @@ export interface LoginRequest {
 }
 
 export interface RegisterRequest {
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
 }
@@ -39,17 +40,14 @@ export class AuthService {
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
   public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
 
-  constructor(
-    private http: HttpClient,
-    private router: Router
-  ) {
+  constructor(private http: HttpClient, private router: Router) {
     this.checkAuthStatus();
   }
 
   private checkAuthStatus(): void {
     const user = this.getStoredUser();
     const token = this.getStoredToken();
-    
+
     if (user && token) {
       this.currentUserSubject.next(user);
       this.isAuthenticatedSubject.next(true);
@@ -67,9 +65,9 @@ export class AuthService {
         id: '1',
         name: credentials.email.split('@')[0],
         email: credentials.email,
-        initials: credentials.email.split('@')[0].substring(0, 2).toUpperCase()
+        initials: credentials.email.split('@')[0].substring(0, 2).toUpperCase(),
       },
-      token: 'demo-token-' + Date.now()
+      token: 'demo-token-' + Date.now(),
     });
   }
 
@@ -80,11 +78,13 @@ export class AuthService {
       message: 'Registration successful',
       user: {
         id: '1',
-        name: userData.name,
+        name: `${userData.firstName} ${userData.lastName}`,
         email: userData.email,
-        initials: userData.name.substring(0, 2).toUpperCase()
+        initials:
+          userData.firstName.substring(0, 1).toUpperCase() +
+          userData.lastName.substring(0, 1).toUpperCase(),
       },
-      token: 'demo-token-' + Date.now()
+      token: 'demo-token-' + Date.now(),
     });
   }
 
@@ -92,7 +92,7 @@ export class AuthService {
     // Store user data and token
     localStorage.setItem('currentUser', JSON.stringify(response.user));
     localStorage.setItem('authToken', response.token);
-    
+
     // Update authentication state
     this.currentUserSubject.next(response.user);
     this.isAuthenticatedSubject.next(true);
